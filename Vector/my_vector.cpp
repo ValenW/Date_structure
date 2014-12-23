@@ -4,14 +4,13 @@
  * @Email   : ValenW@qq.com
  * @Date    : 2014-12-10 06:42:15
  * @Last Modified by:   ValenW
- * @Last Modified time: 2014-12-15 03:41:52
+ * @Last Modified time: 2014-12-21 14:27:10
  */
 
 #include <iostream>
 #include <string>
 #include <cstdlib>
 #include <ctime>
-#include <fstream>
 #include "my_vector.h"
 
 typedef int Rank;
@@ -112,7 +111,7 @@ template <typename T>
 void my_vector<T>::sort(Rank lo, Rank hi) {
     if (lo == -1) lo = 0;
     if (hi == -1) hi = _capt;
-    mergeSort(lo, hi);
+    bubbleSort(lo, hi);
 }
 
 template <typename T>
@@ -167,8 +166,8 @@ Rank my_vector<T>::bubbleL(Rank lo, Rank hi) {
 
 template <typename T>
 void my_vector<T>::bubbleSort(Rank lo, Rank hi) {
-    while (lo < (hi = bubbleR(lo, hi)));
-}//(lo = bubbleL(lo, hi))
+    while ((lo = bubbleL(lo, hi)) < (hi = bubbleR(lo, hi)));
+}
 
 template <typename T>
 Rank my_vector<T>::binarySearch(T const& e, Rank lo, Rank hi) {
@@ -187,9 +186,9 @@ void my_vector<T>::merge(Rank lo, Rank mi, Rank hi) {
     for (int i = 0; i < lb; b[i] = a[i++]);
     int lc = hi - mi;
     T* c = a + lb;
-    for (int i = 0, j = 0, k = 0; (j < lb) || (k < lc); ) {
-        if ((j < lb) && (!(k < lc) || (b[j] <= c[k]))) a[i++] = b[j++];
-        if ((k < lc) && (!(j < lb) || (c[k] < b[j]))) a[i++] = c[k++];
+    for (int i = 0, j = 0, k = 0; j < lb; ) {
+        if ((k < lc) && (b[j] > c[k])) a[i++] = c[k++];
+        if ((lc <= k) || (c[k] >= b[j])) a[i++] = b[j++];
     }
     delete[] b;
 }
@@ -200,5 +199,5 @@ void my_vector<T>::mergeSort(Rank lo, Rank hi) {
     int mi = (hi + lo) >> 1;
     mergeSort(lo, mi);
     mergeSort(mi, hi);
-    merge(lo, mi, hi);
+    if (_elem[mi-1] > _elem[mi]) merge(lo, mi, hi);
 }

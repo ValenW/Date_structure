@@ -95,7 +95,6 @@ public:
         out << a.empty() << std::endl;
         return out;
     }
-
 };
 
 #endif
