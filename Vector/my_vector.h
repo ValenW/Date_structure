@@ -35,9 +35,13 @@ protected:
     Rank binarySearch(T const& e, Rank lo, Rank hi);
 
 public:
-    my_vector(int s = DEF_SIZE, int c = 0, T v = 0) {
+    my_vector(int s, int c, T v) {
         _elem = new T[_size = s];
         for (_capt = 0; _capt < c; _elem[_capt++] = v);
+    }
+    my_vector(int s = DEF_SIZE) {
+        _elem = new T[_size = s];
+        _capt = 0;
     }
     my_vector(T const* a, int n) { copyFrom(a, 0, n); }
     my_vector(T const* a, Rank lo, Rank hi) { copyFrom(a, lo, hi); }
@@ -65,9 +69,9 @@ public:
     int remove(Rank lo, Rank hi);
     Rank insert(T const& e, Rank r = -1);
 
-    Rank find(T const& e) const { return find(e, 0, _size); } // find无序查找
+    Rank find(T const& e) const { return find(e, 0, _capt); } // find无序查找
     Rank find(T const& e, Rank lo, Rank hi) const;
-    Rank search(T const& e) { return search(e, 0, _size); } // search有序查找
+    Rank search(T const& e) { return search(e, 0, _capt); } // search有序查找
     Rank search(T const& e, Rank lo, Rank hi);
 
     void sort(Rank lo = -1, Rank hi = -1);
@@ -86,15 +90,15 @@ public:
 
     int disordered() const; // 逆序对个数
 
-    template <typename sT>
-    friend std::ostream& operator<< (std::ostream& out, const my_vector<sT> &a) {
-        for (int i = 0; i < a.capt(); i++) out << a[i] << " ";
-        out << std::endl;
-        out << a.size() << std::endl;
-        out << a.capt() << std::endl;
-        out << a.empty() << std::endl;
-        return out;
-    }
+    // template <typename sT>
+    // friend std::ostream& operator<< (std::ostream& out, const my_vector<sT> &a) {
+    //     for (int i = 0; i < a.capt(); i++) out << a[i] << " ";
+    //     out << std::endl;
+    //     out << a.size() << std::endl;
+    //     out << a.capt() << std::endl;
+    //     out << a.empty() << std::endl;
+    //     return out;
+    // }
 };
 
 #endif

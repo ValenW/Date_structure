@@ -4,7 +4,7 @@
  * @Email   : ValenW@qq.com
  * @Date    : 2014-12-10 06:42:15
  * @Last Modified by:   ValenW
- * @Last Modified time: 2014-12-21 14:27:10
+ * @Last Modified time: 2014-12-25 21:49:50
  */
 
 #include <iostream>
@@ -74,6 +74,7 @@ void my_vector<T>::unsort(Rank lo, Rank hi) {
 
 template <typename T>
 Rank my_vector<T>::find(T const& e, Rank lo, Rank hi) const {
+    if (empty()) return lo - 1;
     while ((lo < hi--) && (e != _elem[hi]));
     return hi;
 }
