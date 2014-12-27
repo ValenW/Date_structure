@@ -4,7 +4,7 @@
  * @Email   : ValenW@qq.com
  * @Date    : 2014-12-26 20:24:00
  * @Last Modified by:   ValenW
- * @Last Modified time: 2014-12-26 22:21:31
+ * @Last Modified time: 2014-12-27 13:19:24
  */
 
 #include <iostream>
@@ -13,6 +13,46 @@
 #include "my_binTree.h"
 
 using namespace std;
+
+template <typename T>
+bnp(T) binNode<T>::succ() {
+    bnp(T) bn = this;
+    if (hasRc(*bn)) {
+        bn = bn ->rc;
+        while (hasLc(*bn)) bn = bn -> lc;
+    } else {
+        while (isRc(*bn)) bn = bn -> pa;
+        bn = bn -> pa;
+    }
+    return bn;
+}
+
+template <typename T> template <typename sT>
+void travLevel(st& visit) {
+    my_queue<bnp(T)> q;
+    q.enqueue(this);
+    while (!q.empty()) {
+        bnp(T) x = q.dequeue();
+        visit(x -> data);
+        if (hasLc(*x)) q.enqueue(x -> lc);
+        if (hasRc(*x)) q.enqueue(x -> rc);
+    }
+}
+
+template <typename T> template <typename sT>
+void travPre(st& visit) {
+    
+}
+
+template <typename T> template <typename sT>
+void travIn(st& visit) {
+    
+}
+
+template <typename T> template <typename sT>
+void travPost(st& visit) {
+    
+}
 
 template <typename T>
 int removeAt(bnp(T) x) {
@@ -42,4 +82,135 @@ my_binTree<T>* my_binTree<T>::secede(bnp(T) x) {
     t -> _size = x -> size();
     _size -= x -> size();
     return t;
+}
+
+template <typename T, typename sT>
+void travPreR(bnp(T) x, sT& visit) {
+    if (!x) return;
+    visit(x -> data);
+    travPreR(x -> lc, visit);
+    travPreR(x -> rc, visit);
+}
+
+template <typename T, typename sT>
+void travInR(bnp(T) x, sT& visit) {
+    if (!x) return;
+    travInR(x -> lc, visit);
+    visit(x -> data);
+    travInR(x -> rc, visit);
+}
+
+template <typename T, typename sT>
+void travPostR(bnp(T) x, sT& visit) {
+    if (!x) return;
+    travPostR(x -> lc, visit);
+    travPostR(x -> rc, visit);
+    visit(x -> data);
+}
+
+template <typename T, typename sT>
+void travLBr(bnp(T) x, sT& visit, my_stact<bnp(T)>& s) {
+    while (!x) {
+        visit(x -> data);
+        s.push(x -> rc);
+        x = x -> lc;
+    }
+}
+
+template <typename T, typename sT>
+void travpreI1(bnp(T) x, sT& visit) {
+    my_stact<bnp(T)> s;
+    while (true) {
+        travLBr(x, visit, s);
+        if (s.empty()) return;
+        x = s.pop();
+    }
+}
+
+template <typename T>
+void goLBr(bnp(T) x, my_stact<bnp(T) s) {
+    while (x) {
+        s.push(x);
+        x = x -> lc;
+    }
+}
+
+template <typename T, typename sT>
+void travInI1(bnp(T) x, sT& visit) {
+    my_stact<bnp(T)> s;
+    while (true) {
+        goLBr(x, s);
+        if (s.empty()) return;
+        x = s.pop();
+        visit(x -> data);
+        x = x -> rc;
+    }
+}
+
+template <typename T, typename sT>
+void travInI2(bnp(T) x, sT& visit) {
+    my_stact<bnp(T) x> s;
+    while (true) {
+        if (x) {
+            s.push(x);
+            x = x -> lc;
+        } else {
+            x = s.pop();
+            visit(x);
+            x = x -> rc;
+        } else break;
+    }
+}
+
+template <typename T, typename sT>
+void travInI3(bnp(T) x, sT& visit) {
+    bool back = false;
+    while (true) {
+        if (!back && hasLc(*x)) x = x -> lc;
+        else if (hasRc(*x)) {
+                visit(x -> data);
+                x = x -> rc;
+                back = false;
+            } else {
+                visit(x -> data);
+                if (!(x = x -> succ())) break;
+                back = true;
+            }
+    }
+}
+
+template <typename T, typename sT>
+void travInI4(bnp(T) x, sT& visit) {
+    while (true) {
+        if (hasLc(*x)) x = x -> lc;
+        else {
+            visit(x -> data);
+            while (!hasRc(*x))
+                if (!(x = x -> succ())) return;
+                else visit(x -> data);
+            x = x -> rc;
+        }
+    }
+}
+
+template <typename T>
+void goLHL(my_stact<bnp(T)> s) {
+    while(bnp(T) x = s.top()) {
+        if (haslc(*x)) {
+            if (hasRc(*x)) s.push(x -> rc);
+            s.push(x -> lc);
+        } else s.push(x -> rc);
+    }
+    s.pop();
+}
+
+template <typename T, typename sT>
+void travPostI(bnp(T) x, sT& visit) {
+    my_stact<bnp(T)> s;
+    if (x) s.push(x);
+    while (!s.empty()) {
+        if (s.top() != x -> pa) goLHL(s);
+        x = s.pop();
+        visit(x -> data);
+    }
 }

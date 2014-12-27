@@ -11,6 +11,8 @@
 #define MY_BINTREE_H
 
 #include "binNode.h"
+#include "../Stack/my_stack.h"
+#include "../Queue/my_queue.h"
 
 template <typename T>
 class my_binTree {

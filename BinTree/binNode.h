@@ -51,10 +51,10 @@ struct binNode {
     }
     bnp(T) succ();
 
-    template <typename sT> void travLevel(st&);
-    template <typename sT> void travPre(st&);
-    template <typename sT> void travIn(st&);
-    template <typename sT> void travPost(st&);
+    template <typename sT> void travLevel(st& visit);
+    template <typename sT> void travPre(st& visit);
+    template <typename sT> void travIn(st& visit);
+    template <typename sT> void travPost(st& visit);
 
     bool operator== (binNode const& b) {return data == b.data;}
     bool operator!= (binNode const& b) {return data != b.data;}
