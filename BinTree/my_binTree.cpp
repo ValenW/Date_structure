@@ -4,7 +4,7 @@
  * @Email   : ValenW@qq.com
  * @Date    : 2014-12-26 20:24:00
  * @Last Modified by:   ValenW
- * @Last Modified time: 2014-12-27 13:19:24
+ * @Last Modified time: 2014-12-28 10:48:29
  */
 
 #include <iostream>
@@ -28,7 +28,7 @@ bnp(T) binNode<T>::succ() {
 }
 
 template <typename T> template <typename sT>
-void travLevel(st& visit) {
+void binNode<T>::travLevel(sT& visit) {
     my_queue<bnp(T)> q;
     q.enqueue(this);
     while (!q.empty()) {
@@ -40,26 +40,25 @@ void travLevel(st& visit) {
 }
 
 template <typename T> template <typename sT>
-void travPre(st& visit) {
-    
+void binNode<T>::travPre(sT& visit) {
+    travpreI1(this, visit);
 }
 
 template <typename T> template <typename sT>
-void travIn(st& visit) {
-    
+void binNode<T>::travIn(sT& visit) {
+    travInI2(this, visit);
 }
 
 template <typename T> template <typename sT>
-void travPost(st& visit) {
-    
+void binNode<T>::travPost(sT& visit) {
+    travPostI(this, visit);
 }
 
 template <typename T>
 int removeAt(bnp(T) x) {
     if (!x) return 0;
     int n = 1 + removeAt(x -> lc) + removeAt(x -> rc);
-    release(x -> data);
-    release(x);
+    delete x;
     return n;
 }
 
@@ -74,7 +73,7 @@ int my_binTree<T>::remove(bnp(T) x) {
 
 template <typename T>
 my_binTree<T>* my_binTree<T>::secede(bnp(T) x) {
-    formPa(*x) = NULL;
+    fromPa(*x) = NULL;
     upHAbove(x -> pa);
     x -> pa  =NULL;
     my_binTree<T>* t = new my_binTree<T>;
@@ -109,7 +108,7 @@ void travPostR(bnp(T) x, sT& visit) {
 }
 
 template <typename T, typename sT>
-void travLBr(bnp(T) x, sT& visit, my_stact<bnp(T)>& s) {
+void travLBr(bnp(T) x, sT& visit, my_stack<bnp(T)>& s) {
     while (!x) {
         visit(x -> data);
         s.push(x -> rc);
@@ -119,7 +118,7 @@ void travLBr(bnp(T) x, sT& visit, my_stact<bnp(T)>& s) {
 
 template <typename T, typename sT>
 void travpreI1(bnp(T) x, sT& visit) {
-    my_stact<bnp(T)> s;
+    my_stack<bnp(T)> s;
     while (true) {
         travLBr(x, visit, s);
         if (s.empty()) return;
@@ -128,7 +127,7 @@ void travpreI1(bnp(T) x, sT& visit) {
 }
 
 template <typename T>
-void goLBr(bnp(T) x, my_stact<bnp(T) s) {
+void goLBr(bnp(T) x, my_stack<bnp(T)> s) {
     while (x) {
         s.push(x);
         x = x -> lc;
@@ -137,7 +136,7 @@ void goLBr(bnp(T) x, my_stact<bnp(T) s) {
 
 template <typename T, typename sT>
 void travInI1(bnp(T) x, sT& visit) {
-    my_stact<bnp(T)> s;
+    my_stack<bnp(T)> s;
     while (true) {
         goLBr(x, s);
         if (s.empty()) return;
@@ -149,14 +148,14 @@ void travInI1(bnp(T) x, sT& visit) {
 
 template <typename T, typename sT>
 void travInI2(bnp(T) x, sT& visit) {
-    my_stact<bnp(T) x> s;
+    my_stack<bnp(T)> s;
     while (true) {
         if (x) {
             s.push(x);
             x = x -> lc;
-        } else {
+        } else if (!s.empty()) {
             x = s.pop();
-            visit(x);
+            visit(x -> data);
             x = x -> rc;
         } else break;
     }
@@ -194,9 +193,9 @@ void travInI4(bnp(T) x, sT& visit) {
 }
 
 template <typename T>
-void goLHL(my_stact<bnp(T)> s) {
+void goLHL(my_stack<bnp(T)> s) {
     while(bnp(T) x = s.top()) {
-        if (haslc(*x)) {
+        if (hasLc(*x)) {
             if (hasRc(*x)) s.push(x -> rc);
             s.push(x -> lc);
         } else s.push(x -> rc);
@@ -206,7 +205,7 @@ void goLHL(my_stact<bnp(T)> s) {
 
 template <typename T, typename sT>
 void travPostI(bnp(T) x, sT& visit) {
-    my_stact<bnp(T)> s;
+    my_stack<bnp(T)> s;
     if (x) s.push(x);
     while (!s.empty()) {
         if (s.top() != x -> pa) goLHL(s);

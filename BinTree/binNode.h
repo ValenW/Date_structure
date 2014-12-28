@@ -22,7 +22,7 @@
 
 #define sibling(p) (isLc(*(p)) ? (p) -> pa -> rc : (p) -> pa -> lc)
 #define uncle(p) (isLc(*((x) -> pa)) ? (x) -> pa -> pa -> rc : (x) -> pa -> pa -> lc)
-#define formPa(x) (isRoot(x) ? _root : (isLc(x) ? (x).pa -> lc : (x).pa -> rc))
+#define fromPa(x) (isRoot(x) ? _root : (isLc(x) ? (x).pa -> lc : (x).pa -> rc))
 
 #define bnp(T) binNode<T>*
 #define stature(p) ((p) ? (p) -> height : -1)
@@ -40,9 +40,15 @@ struct binNode {
     rbCol color;
 
     binNode() : pa(NULL), lc(NULL), rc(NULL), height(0), npl(1), color(red) {}
-    binNode(T e, bnp(T) p = NULL, bnp(T) lc = NULL, bnp(T) rc = NULL, h = 0, l = 1,
-        c = red) : data(e), pa(p), lc(lc), rc(rc), height(h), npl(l), rbCol(c){}
-    int size();
+    binNode(T e, bnp(T) p = NULL, bnp(T) lc = NULL, bnp(T) rc = NULL, int h = 0, int l = 1,
+        rbCol c = red) : data(e), pa(p), lc(lc), rc(rc), height(h), npl(l), color(c){}
+    int size() {
+        int i = 1;
+        if (rc) i += rc -> size();
+        if (lc) i += lc -> size();
+        return i;
+    }
+    
     bnp(T) insLc(T const& e) {
         return lc = new binNode(e, this);
     }
@@ -51,17 +57,17 @@ struct binNode {
     }
     bnp(T) succ();
 
-    template <typename sT> void travLevel(st& visit);
-    template <typename sT> void travPre(st& visit);
-    template <typename sT> void travIn(st& visit);
-    template <typename sT> void travPost(st& visit);
+    template <typename sT> void travLevel(sT& visit);
+    template <typename sT> void travPre(sT& visit);
+    template <typename sT> void travIn(sT& visit);
+    template <typename sT> void travPost(sT& visit);
 
     bool operator== (binNode const& b) {return data == b.data;}
     bool operator!= (binNode const& b) {return data != b.data;}
     bool operator<= (binNode const& b) {return data <= b.data;}
     bool operator>= (binNode const& b) {return data >= b.data;}
     bool operator< (binNode const& b) {return data < b.data;}
-    bool operator> binNode const& b) {return data > b.data;}
+    bool operator> (binNode const& b) {return data > b.data;}
 };
 
 #endif

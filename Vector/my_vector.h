@@ -90,15 +90,15 @@ public:
 
     int disordered() const; // 逆序对个数
 
-    // template <typename sT>
-    // friend std::ostream& operator<< (std::ostream& out, const my_vector<sT> &a) {
-    //     for (int i = 0; i < a.capt(); i++) out << a[i] << " ";
-    //     out << std::endl;
-    //     out << a.size() << std::endl;
-    //     out << a.capt() << std::endl;
-    //     out << a.empty() << std::endl;
-    //     return out;
-    // }
+    template <typename sT>
+    friend std::ostream& operator<< (std::ostream& out, const my_vector<sT> &a) {
+        for (int i = 0; i < a.capt(); i++) out << a[i] << " ";
+        out << std::endl;
+        out << a.size() << std::endl;
+        out << a.capt() << std::endl;
+        out << a.empty() << std::endl;
+        return out;
+    }
 };
 
 #endif

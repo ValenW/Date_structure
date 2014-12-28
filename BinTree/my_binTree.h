@@ -10,9 +10,14 @@
 #ifndef MY_BINTREE_H
 #define MY_BINTREE_H
 
+#include <iostream>
 #include "binNode.h"
 #include "../Stack/my_stack.h"
 #include "../Queue/my_queue.h"
+
+int max(int a, int b) {
+    return a > b ? a : b;
+}
 
 template <typename T>
 class my_binTree {
@@ -35,7 +40,7 @@ public:
     // insert 作为单个元素加入
     bnp(T) insRoot(T const& e) {
         _size = 1;
-        return _root = new binNode(e);
+        return _root = new binNode<T>(e);
     }
     bnp(T) insLc(bnp(T) x, T const& e) {
         _size++;
@@ -50,23 +55,25 @@ public:
         return x -> rc;
     }
     // attach 作为子树加入
-    bnp(T) attLc(bnp(T) x, my_binTree<T>* &t) {
-        if (x -> lc = t -> _root) x -> lc -> pa = x;
+    bnp(T) attLc(bnp(T) x, my_binTree<T>* t) {
+        if (hasLc(*x)) _size--;
+        if (((x -> lc) = (t -> _root))) (x -> lc -> pa) = x;
         _size += t -> _size;
         upHAbove(x);
         t -> _root = NULL;
         t -> _size = 0;
-        release(t);
+        // release(t);
         t = NULL;
         return x;
     }
-    bnp(T) attRc(bnp(T) x, T const& e) {
-        if (x -> rc = t -> _root) x -> rc -> pa = x;
+    bnp(T) attRc(bnp(T) x, my_binTree<T>* t) {
+        if (hasRc(*x)) _size--;
+        if (((x -> rc) = (t -> _root))) (x -> rc -> pa) = x;
         _size += t -> _size;
         upHAbove(x);
         t -> _root = NULL;
         t -> _size = 0;
-        release(t);
+        // release(t);
         t = NULL;
         return x;
     }
@@ -83,8 +90,22 @@ public:
     template <typename sT>
     void travPost(sT& visit) {if (_root) _root -> travPost(visit);}
     
-    operator== (my_binTree<T> const& t) {
-        return _root && t._root && (_root == t._root;)
+    bool operator== (my_binTree<T> const& t) {
+        return _root && t._root && (_root == t._root);
+    }
+
+    template <typename sT>
+    friend std::ostream& operator<< (std::ostream& out, const my_binTree<sT> &a) {
+        my_queue<bnp(T)> q;
+        q.enqueue(a.root());
+        while (!q.empty()) {
+            bnp(T) x = q.dequeue();
+            std::cout << x -> data << '(' << x -> height << ") ";
+            if (hasLc(*x)) q.enqueue(x -> lc);
+            if (hasRc(*x)) q.enqueue(x -> rc);
+        }
+        std::cout << endl << a.size() << endl;
+        return out;
     }
 };
 
