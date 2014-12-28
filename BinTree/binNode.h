@@ -10,6 +10,8 @@
 #ifndef BINNODE_H
 #define BINNODE_H
 
+#include <iostream>
+
 #define isRoot(x) (! ((x).pa))
 #define isLc(x) (!isRoot(x) && (&(x) == (x).pa -> lc))
 #define isRc(x) (!isRoot(x) && (&(x) == (x).pa -> rc))

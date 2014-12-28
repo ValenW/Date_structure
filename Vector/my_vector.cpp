@@ -50,7 +50,7 @@ void my_vector<T>::shrink() {
     if (_capt > _size >> 2 || _size >> 1 < DEF_SIZE) return;
     T* oldElem = _elem;
     _elem = new T[_size >>= 1];
-    for (int i = 0; i < _capt; i++) _elem = oldElem;
+    for (int i = 0; i < _capt; i++) _elem[i] = oldElem[i];
     delete[] oldElem;
 }
 

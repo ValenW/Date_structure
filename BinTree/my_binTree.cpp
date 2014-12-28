@@ -4,7 +4,7 @@
  * @Email   : ValenW@qq.com
  * @Date    : 2014-12-26 20:24:00
  * @Last Modified by:   ValenW
- * @Last Modified time: 2014-12-28 10:48:29
+ * @Last Modified time: 2014-12-28 16:13:34
  */
 
 #include <iostream>
@@ -41,7 +41,7 @@ void binNode<T>::travLevel(sT& visit) {
 
 template <typename T> template <typename sT>
 void binNode<T>::travPre(sT& visit) {
-    travpreI1(this, visit);
+    travPreI1(this, visit);
 }
 
 template <typename T> template <typename sT>
@@ -109,7 +109,7 @@ void travPostR(bnp(T) x, sT& visit) {
 
 template <typename T, typename sT>
 void travLBr(bnp(T) x, sT& visit, my_stack<bnp(T)>& s) {
-    while (!x) {
+    while (x) {
         visit(x -> data);
         s.push(x -> rc);
         x = x -> lc;
@@ -117,7 +117,7 @@ void travLBr(bnp(T) x, sT& visit, my_stack<bnp(T)>& s) {
 }
 
 template <typename T, typename sT>
-void travpreI1(bnp(T) x, sT& visit) {
+void travPreI1(bnp(T) x, sT& visit) {
     my_stack<bnp(T)> s;
     while (true) {
         travLBr(x, visit, s);
@@ -193,7 +193,7 @@ void travInI4(bnp(T) x, sT& visit) {
 }
 
 template <typename T>
-void goLHL(my_stack<bnp(T)> s) {
+void goLHL(my_stack<bnp(T)>& s) {
     while(bnp(T) x = s.top()) {
         if (hasLc(*x)) {
             if (hasRc(*x)) s.push(x -> rc);

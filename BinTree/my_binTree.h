@@ -104,7 +104,7 @@ public:
             if (hasLc(*x)) q.enqueue(x -> lc);
             if (hasRc(*x)) q.enqueue(x -> rc);
         }
-        std::cout << endl << a.size() << endl;
+        std::cout << std::endl << a.size() << std::endl;
         return out;
     }
 };

@@ -2,7 +2,7 @@
 * @Author: ValenW
 * @Date:   2014-12-14 22:16:39
 * @Last Modified by:   ValenW
-* @Last Modified time: 2014-12-28 10:49:30
+* @Last Modified time: 2014-12-28 16:55:02
 */
 
 #include <iostream>
@@ -21,55 +21,50 @@ struct add {
     }
 };
 
-template <typename T>
-void inc(my_binTree<T> &b) {
-    b.travLevel(add<T>());
-}
-
 int main() {
-    cout << endl << "***** binTree *****" << endl;
-    my_binTree<int> ba;
-    ba.insRoot(0);
-    ba.insLc(ba.root(), 1);
-    ba.insRc(ba.root(), 2);
+    
+    // struct add<int> out;
+    // cout << endl << "***** binTree *****" << endl;
+    // my_binTree<int> ba;
+    // ba.insRoot(0);
+    // ba.insLc(ba.root(), 1);
+    // ba.insRc(ba.root(), 2);
 
-    my_binTree<int> bb, bc;
-    bb.insRoot(10);
-    bc.insRoot(20);
-    ba.attLc(ba.root(), &bb);
-    ba.attRc(ba.root(), &bc);
-    cout << ba;
-    cout << (*(ba.secede(ba.root() -> lc)));
+    // my_binTree<int> bb, bc;
+    // bb.insRoot(10);
+    // bc.insRoot(20);
+    // ba.attLc(ba.root(), &bb);
+    // ba.attRc(ba.root(), &bc);
     // cout << ba;
-    // ba.travLevel(add<int>());
-    cout << ba;
-    ba.insRoot(0);
-    cout << ba;
+    // cout << (*(ba.secede(ba.root() -> lc)));
+    // cout << ba;
+    // ba.insRoot(0);
+    // cout << ba;
 
-    int i = 0;
-    my_queue<bnp(int)> q;
-    bnp(int) x = ba.root();
-    q.enqueue(x);
-    while (!q.empty() && i < 126) {
-        x = q.dequeue();
-        i++;
-        if (!hasLc(*x)) ba.insLc(x, i);
-        i++;
-        if (!hasRc(*x)) ba.insRc(x, i);
-        q.enqueue(x -> lc);
-        q.enqueue(x -> rc);
-    }
-    cout << ba;
+    // int i = 0;
+    // my_queue<bnp(int)> q;
+    // bnp(int) x = ba.root();
+    // q.enqueue(x);
+    // while (!q.empty() && i < 126) {
+    //     x = q.dequeue();
+    //     i++;
+    //     if (!hasLc(*x)) ba.insLc(x, i);
+    //     i++;
+    //     if (!hasRc(*x)) ba.insRc(x, i);
+    //     q.enqueue(x -> lc);
+    //     q.enqueue(x -> rc);
+    // }
+    // cout << ba;
 
-    struct add<int> out;
-    cout << endl << "***level***" << endl;
-    ba.travLevel(out);
-    cout << endl << "***pre***" << endl;
-    ba.travPre(out);
-    cout << endl << "***post***" << endl;
-    ba.travPost(out);
-    cout << endl << "***in***" << endl;
-    ba.travIn(out);
+    // cout << endl << "***level***" << endl;
+    // ba.travLevel(out);
+    // cout << endl << "***post***" << endl;
+    // ba.travPost(out);
+    // cout << endl << "***pre***" << endl;
+    // ba.travPre(out);
+    // cout << endl << "***in***" << endl;
+    // ba.travIn(out);
+
     // cout << endl << "***** Queue *****" << endl;
     // my_queue<int> qa;
     // for (int i = 0; i < 20; i++) qa.enqueue(i);
